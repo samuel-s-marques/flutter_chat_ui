@@ -53,6 +53,8 @@ abstract class ChatTheme {
   const ChatTheme({
     required this.attachmentButtonIcon,
     required this.attachmentButtonMargin,
+    required this.emojiButtonIcon,
+    required this.emojiButtonMargin,
     required this.backgroundColor,
     required this.dateDividerMargin,
     required this.dateDividerTextStyle,
@@ -110,6 +112,12 @@ abstract class ChatTheme {
 
   /// Margin of attachment button.
   final EdgeInsets? attachmentButtonMargin;
+
+  /// Icon for emoji button.
+  final Widget? emojiButtonIcon;
+
+  /// Margin of emoji button.
+  final EdgeInsets? emojiButtonMargin;
 
   /// Used as a background color of a chat widget.
   final Color backgroundColor;
@@ -288,6 +296,8 @@ class DefaultChatTheme extends ChatTheme {
   const DefaultChatTheme({
     super.attachmentButtonIcon,
     super.attachmentButtonMargin,
+    super.emojiButtonIcon,
+    super.emojiButtonMargin,
     super.backgroundColor = neutral7,
     super.dateDividerMargin = const EdgeInsets.only(
       bottom: 32,
@@ -430,6 +440,8 @@ class DarkChatTheme extends ChatTheme {
   const DarkChatTheme({
     super.attachmentButtonIcon,
     super.attachmentButtonMargin,
+    super.emojiButtonIcon,
+    super.emojiButtonMargin,
     super.backgroundColor = dark,
     super.dateDividerMargin = const EdgeInsets.only(
       bottom: 32,
