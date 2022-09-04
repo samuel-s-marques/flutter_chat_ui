@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -37,6 +38,8 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
+  TextEditingController _controller = TextEditingController();
+  bool emojiKeyboardShowing = false;
 
   @override
   void initState() {
@@ -50,17 +53,36 @@ class _ChatPageState extends State<ChatPage> {
           messages: _messages,
           onAttachmentPressed: _handleAttachmentPressed,
           onMessageTap: _handleMessageTap,
+          onEmojiPressed: _handleEmojiPressed,
           onPreviewDataFetched: _handlePreviewDataFetched,
           onSendPressed: _handleSendPressed,
+          inputOptions: InputOptions(
+            textEditingController: _controller,
+          ),
           showUserAvatars: true,
           showUserNames: true,
           user: _user,
+        ),
+        bottomNavigationBar: Offstage(
+          offstage: !emojiKeyboardShowing,
+          child: SizedBox(
+            height: 250,
+            child: EmojiPicker(
+              textEditingController: _controller,
+            ),
+          ),
         ),
       );
 
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
+    });
+  }
+
+  void _handleEmojiPressed() {
+    setState(() {
+      emojiKeyboardShowing = !emojiKeyboardShowing;
     });
   }
 
@@ -159,10 +181,8 @@ class _ChatPageState extends State<ChatPage> {
 
       if (message.uri.startsWith('http')) {
         try {
-          final index =
-              _messages.indexWhere((element) => element.id == message.id);
-          final updatedMessage =
-              (_messages[index] as types.FileMessage).copyWith(
+          final index = _messages.indexWhere((element) => element.id == message.id);
+          final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
             isLoading: true,
           );
 
@@ -181,10 +201,8 @@ class _ChatPageState extends State<ChatPage> {
             await file.writeAsBytes(bytes);
           }
         } finally {
-          final index =
-              _messages.indexWhere((element) => element.id == message.id);
-          final updatedMessage =
-              (_messages[index] as types.FileMessage).copyWith(
+          final index = _messages.indexWhere((element) => element.id == message.id);
+          final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
             isLoading: null,
           );
 
@@ -225,9 +243,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _loadMessages() async {
     final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final messages = (jsonDecode(response) as List).map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList();
 
     setState(() {
       _messages = messages;
