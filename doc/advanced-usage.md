@@ -200,6 +200,42 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
+## Emoji
+In this example, we will use [emoji_picker_flutter](https://pub.dev/packages/emoji_picker_flutter), follow the instructions there to install it. After it is done we can use the emoji picker to select an emoji and send it as a message (full example with images and files can be found [here](#putting-it-all-together)):
+
+```dart
+  TextEditingController _controller = TextEditingController();
+  bool emojiKeyboardShowing = false;
+  
+  // ...
+  
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: Chat(
+          // ...
+          onEmojiPressed: _handleEmojiPressed,
+          inputOptions: InputOptions(
+            textEditingController: _controller,
+          ),
+        ),
+        bottomNavigationBar: Offstage(
+          offstage: !emojiKeyboardShowing,
+          child: SizedBox(
+            height: 250,
+            child: EmojiPicker(
+              textEditingController: _controller,
+            ),
+          ),
+        ),
+      );
+
+  void _handleEmojiPressed() {
+    setState(() {
+      emojiKeyboardShowing = !emojiKeyboardShowing;
+    });
+  }
+```
+
 ## Link preview
 
 Link preview works automatically, we created a separate package for that, you can found it [here](https://pub.dev/packages/flutter_link_previewer). It can be disabled by setting `usePreviewData` to false. Usually, however, you'll want to save the preview data so it stays the same, you can do that using `onPreviewDataFetched` callback:
@@ -240,6 +276,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -279,6 +316,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<types.Message> _messages = [];
   final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
+  TextEditingController _controller = TextEditingController();
+  bool emojiKeyboardShowing = false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -286,15 +325,34 @@ class _MyHomePageState extends State<MyHomePage> {
           messages: _messages,
           onAttachmentPressed: _handleAttachmentPressed,
           onMessageTap: _handleMessageTap,
+          onEmojiPressed: _handleEmojiPressed,
           onPreviewDataFetched: _handlePreviewDataFetched,
           onSendPressed: _handleSendPressed,
+          inputOptions: InputOptions(
+            textEditingController: _controller,
+          ),
           user: _user,
+        ),
+        bottomNavigationBar: Offstage(
+          offstage: !emojiKeyboardShowing,
+          child: SizedBox(
+            height: 250,
+            child: EmojiPicker(
+              textEditingController: _controller,
+            ),
+          ),
         ),
       );
 
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
+    });
+  }
+
+  void _handleEmojiPressed() {
+    setState(() {
+      emojiKeyboardShowing = !emojiKeyboardShowing;
     });
   }
 
