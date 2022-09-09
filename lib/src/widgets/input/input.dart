@@ -91,7 +91,6 @@ class _InputState extends State<Input> {
   @override
   void dispose() {
     _inputFocusNode.dispose();
-    _textController.dispose();
     super.dispose();
   }
 
