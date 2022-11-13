@@ -133,10 +133,7 @@ class _InputState extends State<Input> {
 
   Widget _inputBuilder() {
     final query = MediaQuery.of(context);
-    final buttonPadding = InheritedChatTheme.of(context)
-        .theme
-        .inputPadding
-        .copyWith(left: 16, right: 16);
+    final buttonPadding = InheritedChatTheme.of(context).theme.inputPadding.copyWith(left: 16, right: 16);
     final safeAreaInsets = isMobile
         ? EdgeInsets.fromLTRB(
             query.padding.left,
@@ -145,11 +142,7 @@ class _InputState extends State<Input> {
             query.viewInsets.bottom + query.padding.bottom,
           )
         : EdgeInsets.zero;
-    final textPadding = InheritedChatTheme.of(context)
-        .theme
-        .inputPadding
-        .copyWith(left: 0, right: 0)
-        .add(
+    final textPadding = InheritedChatTheme.of(context).theme.inputPadding.copyWith(left: 0, right: 0).add(
           EdgeInsets.fromLTRB(
             widget.onAttachmentPressed != null ? 0 : 24,
             0,
