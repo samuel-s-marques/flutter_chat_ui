@@ -38,8 +38,8 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
-  TextEditingController _controller = TextEditingController();
-  bool emojiKeyboardShowing = false;
+  final TextEditingController _controller = TextEditingController();
+  bool _emojiKeyboardShowing = false;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _ChatPageState extends State<ChatPage> {
           user: _user,
         ),
         bottomNavigationBar: Offstage(
-          offstage: !emojiKeyboardShowing,
+          offstage: !_emojiKeyboardShowing,
           child: SizedBox(
             height: 250,
             child: EmojiPicker(
@@ -81,9 +81,16 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleEmojiPressed() {
-    setState(() {
-      emojiKeyboardShowing = !emojiKeyboardShowing;
-    });
+    if (_emojiKeyboardShowing) {
+      setState(() {
+        _emojiKeyboardShowing = false;
+      });
+    } else {
+      setState(() {
+        FocusManager.instance.primaryFocus?.unfocus();
+        _emojiKeyboardShowing = true;
+      });
+    }
   }
 
   void _handleAttachmentPressed() {
