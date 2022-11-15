@@ -8,6 +8,7 @@ import '../../util.dart';
 import '../state/inherited_chat_theme.dart';
 import '../state/inherited_user.dart';
 import 'file_message.dart';
+import 'audio_message.dart';
 import 'image_message.dart';
 import 'message_status.dart';
 import 'text_message.dart';
@@ -55,8 +56,7 @@ class Message extends StatelessWidget {
   });
 
   /// Build an audio message inside predefined bubble.
-  final Widget Function(types.AudioMessage, {required int messageWidth})?
-      audioMessageBuilder;
+  final Widget Function(types.AudioMessage, {required int messageWidth})? audioMessageBuilder;
 
   /// This is to allow custom user avatar builder
   /// By using this we can fetch newest user info based on id
@@ -78,12 +78,10 @@ class Message extends StatelessWidget {
   final BubbleRtlAlignment? bubbleRtlAlignment;
 
   /// Build a custom message inside predefined bubble.
-  final Widget Function(types.CustomMessage, {required int messageWidth})?
-      customMessageBuilder;
+  final Widget Function(types.CustomMessage, {required int messageWidth})? customMessageBuilder;
 
   /// Build a custom status widgets.
-  final Widget Function(types.Message message, {required BuildContext context})?
-      customStatusBuilder;
+  final Widget Function(types.Message message, {required BuildContext context})? customStatusBuilder;
 
   /// Controls the enlargement behavior of the emojis in the
   /// [types.TextMessage].
@@ -91,8 +89,7 @@ class Message extends StatelessWidget {
   final EmojiEnlargementBehavior emojiEnlargementBehavior;
 
   /// Build a file message inside predefined bubble.
-  final Widget Function(types.FileMessage, {required int messageWidth})?
-      fileMessageBuilder;
+  final Widget Function(types.FileMessage, {required int messageWidth})? fileMessageBuilder;
 
   /// Hide background for messages containing only emojis.
   final bool hideBackgroundOnEmojiMessages;
@@ -101,8 +98,7 @@ class Message extends StatelessWidget {
   final Map<String, String>? imageHeaders;
 
   /// Build an image message inside predefined bubble.
-  final Widget Function(types.ImageMessage, {required int messageWidth})?
-      imageMessageBuilder;
+  final Widget Function(types.ImageMessage, {required int messageWidth})? imageMessageBuilder;
 
   /// Any message type.
   final types.Message message;
@@ -123,8 +119,7 @@ class Message extends StatelessWidget {
   final void Function(BuildContext context, types.Message)? onMessageLongPress;
 
   /// Called when user makes a long press on status icon in any message.
-  final void Function(BuildContext context, types.Message)?
-      onMessageStatusLongPress;
+  final void Function(BuildContext context, types.Message)? onMessageStatusLongPress;
 
   /// Called when user taps on status icon in any message.
   final void Function(BuildContext context, types.Message)? onMessageStatusTap;
@@ -136,8 +131,7 @@ class Message extends StatelessWidget {
   final void Function(types.Message, bool visible)? onMessageVisibilityChanged;
 
   /// See [TextMessage.onPreviewDataFetched].
-  final void Function(types.TextMessage, types.PreviewData)?
-      onPreviewDataFetched;
+  final void Function(types.TextMessage, types.PreviewData)? onPreviewDataFetched;
 
   /// Rounds border of the message to visually group messages together.
   final bool roundBorder;
@@ -171,23 +165,20 @@ class Message extends StatelessWidget {
   final String? userAgent;
 
   /// Build an audio message inside predefined bubble.
-  final Widget Function(types.VideoMessage, {required int messageWidth})?
-      videoMessageBuilder;
+  final Widget Function(types.VideoMessage, {required int messageWidth})? videoMessageBuilder;
 
   @override
   Widget build(BuildContext context) {
     final query = MediaQuery.of(context);
     final user = InheritedUser.of(context).user;
     final currentUserIsAuthor = user.id == message.author.id;
-    final enlargeEmojis =
-        emojiEnlargementBehavior != EmojiEnlargementBehavior.never &&
-            message is types.TextMessage &&
-            isConsistsOfEmojis(
-              emojiEnlargementBehavior,
-              message as types.TextMessage,
-            );
-    final messageBorderRadius =
-        InheritedChatTheme.of(context).theme.messageBorderRadius;
+    final enlargeEmojis = emojiEnlargementBehavior != EmojiEnlargementBehavior.never &&
+        message is types.TextMessage &&
+        isConsistsOfEmojis(
+          emojiEnlargementBehavior,
+          message as types.TextMessage,
+        );
+    final messageBorderRadius = InheritedChatTheme.of(context).theme.messageBorderRadius;
     final borderRadius = bubbleRtlAlignment == BubbleRtlAlignment.left
         ? BorderRadiusDirectional.only(
             bottomEnd: Radius.circular(
@@ -232,9 +223,7 @@ class Message extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
-        textDirection: bubbleRtlAlignment == BubbleRtlAlignment.left
-            ? null
-            : TextDirection.ltr,
+        textDirection: bubbleRtlAlignment == BubbleRtlAlignment.left ? null : TextDirection.ltr,
         children: [
           if (!currentUserIsAuthor && showUserAvatars) _avatarBuilder(),
           ConstrainedBox(
@@ -251,8 +240,7 @@ class Message extends StatelessWidget {
                   child: onMessageVisibilityChanged != null
                       ? VisibilityDetector(
                           key: Key(message.id),
-                          onVisibilityChanged: (visibilityInfo) =>
-                              onMessageVisibilityChanged!(
+                          onVisibilityChanged: (visibilityInfo) => onMessageVisibilityChanged!(
                             message,
                             visibilityInfo.visibleFraction > 0.1,
                           ),
@@ -278,8 +266,7 @@ class Message extends StatelessWidget {
               padding: InheritedChatTheme.of(context).theme.statusIconPadding,
               child: showStatus
                   ? GestureDetector(
-                      onLongPress: () =>
-                          onMessageStatusLongPress?.call(context, message),
+                      onLongPress: () => onMessageStatusLongPress?.call(context, message),
                       onTap: () => onMessageStatusTap?.call(context, message),
                       child: customStatusBuilder != null
                           ? customStatusBuilder!(message, context: context)
@@ -319,8 +306,7 @@ class Message extends StatelessWidget {
               : Container(
                   decoration: BoxDecoration(
                     borderRadius: borderRadius,
-                    color: !currentUserIsAuthor ||
-                            message.type == types.MessageType.image
+                    color: !currentUserIsAuthor || message.type == types.MessageType.image
                         ? InheritedChatTheme.of(context).theme.secondaryColor
                         : InheritedChatTheme.of(context).theme.primaryColor,
                   ),
@@ -336,12 +322,10 @@ class Message extends StatelessWidget {
         final audioMessage = message as types.AudioMessage;
         return audioMessageBuilder != null
             ? audioMessageBuilder!(audioMessage, messageWidth: messageWidth)
-            : const SizedBox();
+            : AudioMessage(message: audioMessage);
       case types.MessageType.custom:
         final customMessage = message as types.CustomMessage;
-        return customMessageBuilder != null
-            ? customMessageBuilder!(customMessage, messageWidth: messageWidth)
-            : const SizedBox();
+        return customMessageBuilder != null ? customMessageBuilder!(customMessage, messageWidth: messageWidth) : const SizedBox();
       case types.MessageType.file:
         final fileMessage = message as types.FileMessage;
         return fileMessageBuilder != null
@@ -377,9 +361,7 @@ class Message extends StatelessWidget {
               );
       case types.MessageType.video:
         final videoMessage = message as types.VideoMessage;
-        return videoMessageBuilder != null
-            ? videoMessageBuilder!(videoMessage, messageWidth: messageWidth)
-            : const SizedBox();
+        return videoMessageBuilder != null ? videoMessageBuilder!(videoMessage, messageWidth: messageWidth) : const SizedBox();
       default:
         return const SizedBox();
     }
