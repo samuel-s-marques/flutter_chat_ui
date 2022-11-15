@@ -1,6 +1,21 @@
 [
   {
     "author": {
+      "firstName": "Sam",
+      "id": "798feff4-d667-40fc-afdb-e9191a606433",
+      "lastName": "Marques"
+    },
+    "createdAt": 1655652751000,
+    "id": "84694d45-99c7-4c50-84da-28f1b480014a",
+    "status": "seen",
+    "name": "my audio",
+    "type": "audio",
+    "uri": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "size": 100,
+    "duration": 5000000
+  },
+  {
+    "author": {
       "firstName": "John",
       "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
       "lastName": "Doe"
