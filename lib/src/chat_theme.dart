@@ -65,6 +65,7 @@ abstract class ChatTheme {
     required this.dateDividerTextStyle,
     required this.deliveredIcon,
     required this.documentIcon,
+    required this.audioIcon,
     required this.emptyChatPlaceholderTextStyle,
     required this.errorColor,
     required this.errorIcon,
@@ -88,6 +89,7 @@ abstract class ChatTheme {
     required this.receivedMessageBodyTextStyle,
     required this.receivedMessageCaptionTextStyle,
     required this.receivedMessageDocumentIconColor,
+    required this.receivedMessageAudioIconColor,
     required this.receivedMessageLinkDescriptionTextStyle,
     required this.receivedMessageLinkTitleTextStyle,
     required this.secondaryColor,
@@ -102,6 +104,7 @@ abstract class ChatTheme {
     required this.sentMessageBodyTextStyle,
     required this.sentMessageCaptionTextStyle,
     required this.sentMessageDocumentIconColor,
+    required this.sentMessageAudioIconColor,
     required this.sentMessageLinkDescriptionTextStyle,
     required this.sentMessageLinkTitleTextStyle,
     required this.statusIconPadding,
@@ -140,6 +143,9 @@ abstract class ChatTheme {
 
   /// Icon inside file message.
   final Widget? documentIcon;
+
+  /// Icon inside audio message.
+  final Widget? audioIcon;
 
   /// Text style of the empty chat placeholder.
   final TextStyle emptyChatPlaceholderTextStyle;
@@ -217,6 +223,10 @@ abstract class ChatTheme {
   /// [documentIcon] is used.
   final Color receivedMessageDocumentIconColor;
 
+  /// Color of the audio icon on received messages. Has no effect when
+  /// [audioIcon] is used.
+  final Color receivedMessageAudioIconColor;
+
   /// Text style used for displaying link description on received messages.
   final TextStyle receivedMessageLinkDescriptionTextStyle;
 
@@ -264,6 +274,10 @@ abstract class ChatTheme {
   /// Color of the document icon on sent messages. Has no effect when
   /// [documentIcon] is used.
   final Color sentMessageDocumentIconColor;
+
+  /// Color of the audio icon on sent messages. Has no effect when
+  /// [audioIcon] is used.
+  final Color sentMessageAudioIconColor;
 
   /// Text style used for displaying link description on sent messages.
   final TextStyle sentMessageLinkDescriptionTextStyle;
@@ -325,6 +339,7 @@ class DefaultChatTheme extends ChatTheme {
     ),
     super.deliveredIcon,
     super.documentIcon,
+    super.audioIcon,
     super.emptyChatPlaceholderTextStyle = const TextStyle(
       color: neutral2,
       fontSize: 16,
@@ -373,6 +388,7 @@ class DefaultChatTheme extends ChatTheme {
       height: 1.333,
     ),
     super.receivedMessageDocumentIconColor = primary,
+    super.receivedMessageAudioIconColor = primary,
     super.receivedMessageLinkDescriptionTextStyle = const TextStyle(
       color: neutral0,
       fontSize: 14,
@@ -407,6 +423,7 @@ class DefaultChatTheme extends ChatTheme {
       height: 1.333,
     ),
     super.sentMessageDocumentIconColor = neutral7,
+    super.sentMessageAudioIconColor = neutral7,
     super.sentMessageLinkDescriptionTextStyle = const TextStyle(
       color: neutral7,
       fontSize: 14,
@@ -496,6 +513,7 @@ class DarkChatTheme extends ChatTheme {
     ),
     super.deliveredIcon,
     super.documentIcon,
+    super.audioIcon,
     super.emptyChatPlaceholderTextStyle = const TextStyle(
       color: neutral2,
       fontSize: 16,
@@ -544,6 +562,7 @@ class DarkChatTheme extends ChatTheme {
       height: 1.333,
     ),
     super.receivedMessageDocumentIconColor = primary,
+    super.receivedMessageAudioIconColor = primary,
     super.receivedMessageLinkDescriptionTextStyle = const TextStyle(
       color: neutral7,
       fontSize: 14,
@@ -578,6 +597,7 @@ class DarkChatTheme extends ChatTheme {
       height: 1.333,
     ),
     super.sentMessageDocumentIconColor = neutral7,
+    super.sentMessageAudioIconColor = neutral7,
     super.sentMessageLinkDescriptionTextStyle = const TextStyle(
       color: neutral7,
       fontSize: 14,
