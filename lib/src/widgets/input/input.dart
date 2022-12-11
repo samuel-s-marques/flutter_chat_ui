@@ -164,10 +164,9 @@ class _InputState extends State<Input> {
             child: Row(
               textDirection: TextDirection.ltr,
               children: [
-                if (widget.onAttachmentPressed != null)
-                  AttachmentButton(
-                    isLoading: widget.isAttachmentUploading ?? false,
-                    onPressed: widget.onAttachmentPressed,
+                if (widget.onEmojiPressed != null)
+                  EmojiButton(
+                    onPressed: widget.onEmojiPressed,
                     padding: buttonPadding,
                   ),
                 Expanded(
@@ -195,9 +194,10 @@ class _InputState extends State<Input> {
                     ),
                   ),
                 ),
-                if (widget.onEmojiPressed != null)
-                  EmojiButton(
-                    onPressed: widget.onEmojiPressed,
+                if (widget.onAttachmentPressed != null)
+                  AttachmentButton(
+                    isLoading: widget.isAttachmentUploading ?? false,
+                    onPressed: widget.onAttachmentPressed,
                     padding: buttonPadding,
                   ),
                 ConstrainedBox(
